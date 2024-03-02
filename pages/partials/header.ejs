@@ -1,30 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-200">
-<head>
-  <meta charset="UTF-8">
-  <title><%= locals.title || "Express OpenID Connect" %></title>
-  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
-  <link rel="shortcut icon" href="//cdn2.auth0.com/styleguide/latest/lib/logos/img/favicon.png">
-</head>
-<body>
-    <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6">
 
-        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-            <div class="text-sm lg:flex-grow">
-                <a href="/" class="block mt-4 lg:inline-block lg:mt-0 text-gray-300 hover:text-white mr-4">Home</a>
-                <% if (locals.user) { %>
-                    <a  href="/profile" 
-                        class="block mt-4 lg:inline-block lg:mt-0 text-gray-300 hover:text-white mr-4">Profile</a>
-                    <a  href="/logout" 
-                        class="block mt-4 lg:inline-block lg:mt-0 text-gray-300 hover:text-white mr-4">Logout</a>
-                <% } else { %>
-                    <a  href="/login" 
-                        class="block mt-4 lg:inline-block lg:mt-0 text-gray-300 hover:text-white mr-4">Login</a>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= locals.title || "Express OpenID Connect" %>
+    </title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+    <link rel="shortcut icon" href="//cdn2.auth0.com/styleguide/latest/lib/logos/img/favicon.png">
+</head>
+
+<body>
+    <nav class="flex items-center justify-end flex-wrap p-6">
+        <% if (locals.user) { %>
+            <div class="relative text-left">
+                
+                <button type="button"
+                    class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    id="menu-button" aria-expanded="false" aria-haspopup="true">
+                    
+                    <%= locals.user.nickname %>
+                    <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                        aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                
+                <div class="dropdown-menu absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="py-1" role="none">
+                        <a href="/"
+                            class="dropdown-child">Home</a>
+                        <a href="/profile"
+                            class="dropdown-child">Profile</a>
+                        <a href="/logout"
+                            class="dropdown-child">Logout</a>
+                    </div>
+                </div>
+
                 <% } %>
             </div>
-            
-        </div>
     </nav>
+    <script>
+        document.getElementById('menu-button').addEventListener('click', function() {
+          var expanded = this.getAttribute('aria-expanded') === 'true' || false;
+          this.setAttribute('aria-expanded', !expanded);
+        });
+    </script>
+    <style>
+        [aria-expanded="false"] ~ .dropdown-menu {
+            display: none;
+          }
+          
+        [aria-expanded="true"] ~ .dropdown-menu {
+        display: block;
+        }
+
+        .dropdown-child {
+            display: block;
+            padding: 0.25rem 1.5rem;
+        }
+
+        .dropdown-child:hover {
+            background-color: mediumseagreen;
+        }
+    </style>
     <div class="flex justify-center py-4">
-            <div class="w-5/6 lg:w-3/4 bg-white p-4 rounded overflow-hidden shadow-lg">
-                
+        <div class="w-5/6 lg:w-3/4 bg-white p-4 rounded overflow-hidden shadow-lg">
