@@ -11,9 +11,9 @@
 </head>
 
 
-    <nav class="nav flex items-center justify-end flex-wrap">
+    <nav class="nav flex items-center justify-end flex-wrap p-6">
         <% if (locals.user) { %>
-            <div class="relative text-left">
+            <div class=" relative text-left">
                 
                 <button type="button"
                     class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -43,7 +43,7 @@
 
                 <% } %>
             </div>
-    </nav>
+        </nav>
     <script>
         document.getElementById('menu-button').addEventListener('click', function() {
           var expanded = this.getAttribute('aria-expanded') === 'true' || false;
@@ -69,7 +69,11 @@
         }
 
         .nav {
-            display: absolute;
+            width: 100%;
+            position: absolute;
             background-color: transparent;
         }
+
+
+        
     </style>

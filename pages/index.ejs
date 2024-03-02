@@ -1,13 +1,31 @@
 <%- include('partials/header') -%>
 
+<style>
+    body{
+        background-color: darkseagreen;
+    }
+
+    .login-btn {
+        font-size: 3em;
+        font-weight: bold;
+        border: 2px solid rgb(175, 21, 72);
+        border-radius: 20px;
+        background-color: palevioletred;
+        color: rgb(43, 0, 14);
+    }
+</style>
+
 <% if (locals.isAuthenticated) { %>
+    
        
     <canvas></canvas>
     <script src="/collisions.js"></script>
     <script src="/classes.js"></script>
     <script src="/index.js"></script>
 <% } else { %>
-    <p>You are not logged in. <a href="/login" class="underline">Login</a>.</p>
+    <div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <a href="/login" class="login-btn p-6"> plz login :)</a>
+</div>
 <% } %>
 
 <%- include('partials/footer') -%>
