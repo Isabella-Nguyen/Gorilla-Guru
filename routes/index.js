@@ -16,4 +16,3 @@ router.get('/profile', requiresAuth(), function (req, res, next) {
 });
 
 module.exports = router;
-
