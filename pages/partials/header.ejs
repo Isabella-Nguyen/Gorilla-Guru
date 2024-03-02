@@ -6,11 +6,11 @@
     <title>
         <%= locals.title || "Express OpenID Connect" %>
     </title>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+    
     <link rel="shortcut icon" href="//cdn2.auth0.com/styleguide/latest/lib/logos/img/favicon.png">
 </head>
 
-<body>
+
     <nav class="flex items-center justify-end flex-wrap p-6">
         <% if (locals.user) { %>
             <div class="relative text-left">
@@ -68,5 +68,3 @@
             background-color: mediumseagreen;
         }
     </style>
-    <div class="flex justify-center py-4">
-        <div class="w-5/6 lg:w-3/4 bg-white p-4 rounded overflow-hidden shadow-lg">
