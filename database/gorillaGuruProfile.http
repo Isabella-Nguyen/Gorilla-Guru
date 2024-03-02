@@ -1,0 +1,134 @@
+### kintone REST API Requests - App Records
+@domain = gorilla-guru.kintone.com
+@appId = 1
+@apiToken1 = f4HyRWDTDzo1LdRMiNQ3AIdQ5UTv7BIAIxbvvY3J
+@userCode = thurka.thyagarajah@gmail.com
+
+### GET/records
+GET https://{{domain}}/k/v1/records.json?app={{appId}}
+X-Cybozu-API-Token: {{apiToken1}}
+
+### POST/records
+POST https://{{domain}}/k/v1/records.json
+X-Cybozu-API-Token: {{apiToken1}}
+Content-Type: application/json
+
+{
+  "app": {{appId}},
+  "records": [
+    {
+      "name": {
+        "value": "Isabella"
+      },
+      "bio": {
+        "value": "it's pretty good"
+      },
+      "Rep": {
+        "value": [{"code": "{{userCode}}"}]
+      }
+    },
+    {
+      "name": {
+        "value": "Aashna"
+      },
+      "bio": {
+        "value": "I'm giving up on you"
+      },
+      "Rep": {
+        "value": [{"code": "{{userCode}}"}]
+      }
+    }
+  ]
+}
+
+### PUT/records
+PUT https://{{domain}}/k/v1/records.json
+X-Cybozu-API-Token: {{apiToken1}}
+Content-Type: application/json
+
+{
+  "app": {{appId}},
+  "records": [
+    {
+      "id": 1,
+      "record": {
+        "name": {
+          "value": "Thurky"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "record": {
+        "name": {
+          "value": "Selena"
+        },
+        "to_do_list":{
+            "value": [
+          {
+            "id": "1",
+            "value": {
+              "task": {
+                "type": "MULTI_LINE_TEXT",
+                "value": "CSS Assignment 4"
+              },
+              "done": {
+                "type": "CHECK_BOX",
+                "value": []
+              }
+            }
+          },
+          {
+            "id": "2",
+            "value": {
+              "task": {
+                "type": "MULTI_LINE_TEXT",
+                "value": "Test 1"
+              },
+              "done": {
+                "type": "CHECK_BOX",
+                "value": [
+                  "Done"
+                ]
+              }
+            }
+          }
+        ] 
+        }
+      }
+    }
+  ]
+}
+
+# ### DELETE/records
+# DELETE https://{{domain}}/k/v1/records.json?app={{appId}}&ids[0]=1
+# X-Cybozu-API-Token: {{apiToken1}}
+
+# ### POST/file
+# POST https://{{domain}}/k/v1/file.json
+# X-Cybozu-API-Token: {{apiToken1}}
+# Content-Type: multipart/form-data; boundary=----20111107kintone20111107cybozucom
+
+# ------20111107kintone20111107cybozucom
+# Content-Disposition: form-data; name="file"; filename="kintone.jpg"
+# Content-Type: image/jpeg
+
+# < ./kintone.jpg
+# ------20111107kintone20111107cybozucom--
+
+# ### PUT/record for updating file
+# PUT https://{{domain}}/k/v1/record.json
+# X-Cybozu-API-Token: {{apiToken1}}
+# Content-Type: application/json
+
+# {
+#     "app": {{appId}},
+#     "id": "1",
+#     "record": {
+#       "Attachment": {
+#         "value": [{
+#           "fileKey": "your_file_key"
+#         }]
+#       }
+#     }
+# }
