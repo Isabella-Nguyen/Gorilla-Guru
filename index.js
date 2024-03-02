@@ -9,21 +9,6 @@ for (let i=0; i<collisions.length; i+=70){ // 70 tiles wide
     collisionsMap.push(collisions.slice(i, 70 + i));
 }
 
-class Boundary {
-    static width = 48;
-    static height = 48;
-    constructor(position) {
-        this.position = position;
-        this.width = 48;   // his map is 400% zoomed, and each pixel is 12x12, so 12x4=48
-        this.height = 48;
-    }
-
-    draw() {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0)';
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-}
-
 const boundaries = [];
 const offset = {x: -745, y: -630};
 
@@ -43,50 +28,43 @@ collisionsMap.forEach((row, i) => {
 const floorImage = new Image();
 floorImage.src = './img/Pellet Town.png';
 
-const playerImage = new Image();
-playerImage.src = './img/playerDown.png';
+const playerDownImage = new Image();
+playerDownImage.src = './img/playerDown.png';
 
-class Sprite {
-    constructor(position, image, frames = {max:1}){
-        this.position = position;
-        this.image = image;
-        this.frames = frames;
+const playerUpImage = new Image();
+playerUpImage.src = './img/playerUp.png';
 
-        this.image.onload = () => {
-            this.width = this.image.width / this.frames.max;
-            this.height = this.image.height;
-        }
-    }
+const playerLeftImage = new Image();
+playerLeftImage.src = './img/playerLeft.png';
 
-    draw() {
-        ctx.drawImage(
-            this.image,
-            0,
-            0,
-            this.image.width / this.frames.max,
-            this.image.height,
-            this.position.x,
-            this.position.y,
-            this.image.width / this.frames.max,
-            this.image.height
-        )
-    }
-}
+const playerRightImage = new Image();
+playerRightImage.src = './img/playerRight.png';
 
-// canvas.width / 2 - this.image.width / 2,
-//             canvas.height / 2 - this.image.height / 2,
+const foregroundImage = new Image(); // for the parts where the player goes behind
+foregroundImage.src = './img/foregroundObjects.png';
 
 const player = new Sprite({
         x: canvas.width / 2 - 192 / 4 / 2, // player is 192 x 68
         y: canvas.height / 2 - 68 / 2
     },
-    playerImage,
-    {max : 4}
+    playerDownImage,
+    {max : 4},
+    {
+        up: playerUpImage,
+        down: playerDownImage,
+        left: playerLeftImage,
+        right: playerRightImage
+    }
 )
 
 const background = new Sprite(
     {x: offset.x, y: offset.y},
     floorImage
+);
+
+const foreground = new Sprite(
+    {x: offset.x, y: offset.y},
+    foregroundImage
 );
 
 const keys = {
@@ -104,7 +82,8 @@ const keys = {
     }
 }
 
-const movables = [background, ...boundaries];
+// for stuff that move with the background
+const movables = [background, ...boundaries, foreground];
 
 function rectangularCollision({rectangle1, rectangle2}){
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -120,9 +99,14 @@ function animate() {
         boundary.draw();
     })
     player.draw();
+    foreground.draw();
 
     let moving = true;
+    player.moving = false;
     if (keys.w.pressed && lastKey === 'w') {
+        player.moving = true;
+        player.image = player.sprites.up;
+
         for (let i=0; i<boundaries.length ; i++){
             const boundary = boundaries[i]
 
@@ -146,6 +130,9 @@ function animate() {
         }
     }
     else if (keys.a.pressed && lastKey === 'a') {
+        player.moving = true;
+        player.image = player.sprites.left;
+
         for (let i=0; i<boundaries.length ; i++){
             const boundary = boundaries[i]
 
@@ -169,6 +156,9 @@ function animate() {
         }
     }
     else if (keys.d.pressed && lastKey === 'd') {
+        player.moving = true;
+        player.image = player.sprites.right;
+
         for (let i=0; i<boundaries.length ; i++){
             const boundary = boundaries[i]
 
@@ -192,6 +182,9 @@ function animate() {
         }
     }
     else if (keys.s.pressed && lastKey === 's') {
+        player.moving = true;
+        player.image = player.sprites.down;
+
         for (let i=0; i<boundaries.length ; i++){
             const boundary = boundaries[i]
 
