@@ -314,8 +314,7 @@ animate()
 
 function exitWhiteboard(){
     let exit = document.getElementById("whiteboard");
-    exit.style.opacity = 0;
-    exit.style.pointerEvents = "none";
+    exit.style.visibility = "hidden";
     whiteboard.initiated = false;
     movables.forEach((movable) => {
         movable.position.y -= 10;
