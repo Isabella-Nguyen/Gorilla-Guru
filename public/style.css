@@ -152,14 +152,15 @@ body {
         } */
 
 #whiteboard {
+    width: 100%;
+    height: 100%;
     opacity: 0;
     background-color: darkseagreen;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 10;
 }
 
@@ -172,6 +173,7 @@ body {
     bottom: 0;
     left: 0;
     opacity: 0;
+    pointer-events: none;
     z-index: 10;
 }
 
@@ -183,10 +185,10 @@ h1 {
     }
 
     font-family: Anta;
+    font-size: larger;
     color: rgb(175, 21, 72);
     padding: 5px;
     overflow: hidden;
-    border-right: 0.15em solid rgb(103, 0, 0);
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.15em;
@@ -195,7 +197,6 @@ h1 {
                 blink-caret 0.5s step-end infinite;*/
     typing 3s steps(60, end),
     blink-caret 0.30s step-end 10;
-    width: 555px;
 }
 
 /* The typing effect */

@@ -2,22 +2,19 @@
 
     <% if (locals.isAuthenticated) { %>
 
-        <!-- <div style="display: inline-block">
+        <div style="display: inline-block">
             <div id="overlappingDiv">
-        </div> -->
+        </div>
 
         <div id="whiteboard">
-            <div>
                 <h1>Welcome to the Gorilla Board</h1>
-                
                 <canvas id="whiteboard_canvas" width="800" height="400">Canvas</canvas>
-                <div class="button">
+                <div class="button ">
                     <button id="select" onclick="select()">Select</button>
                     <button id="rect" onclick="rectangle()">Rectangle</button>
                     <button id="draw" onclick="draw()">Draw</button>
                     <button id="text" onclick="text()">Text</button>
                 </div>
-            </div>
         </div>
 
         <div id="hidden-container">
