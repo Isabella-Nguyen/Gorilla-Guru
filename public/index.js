@@ -57,7 +57,7 @@ const actions2 = []
 actionsMap2.forEach((row, i) => {
     row.forEach((symbol, j) => {
         if(symbol === 14401){
-            actions.push(
+            actions2.push(
                 new Boundary({
                     x: j * Boundary.width + offset.x,
                     y: i * Boundary.height + offset.y
@@ -138,9 +138,9 @@ function rectangularCollision({rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
 }
 
-function changePageCheck(actions){
-    for (let i=0; i<actions.length ; i++){
-        const action = actions[i]
+function changePageCheck(areas){
+    for (let i=0; i<areas.length ; i++){
+        const area = areas[i]
         // const overlappingArea = 
         // (Math.min(
         //     player.position.x + player.width,
@@ -155,7 +155,7 @@ function changePageCheck(actions){
 
         if (rectangularCollision({
             rectangle1: player,
-            rectangle2: action
+            rectangle2: area
         }))
             return true;
         }
