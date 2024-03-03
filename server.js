@@ -5,6 +5,7 @@ const logger = require('morgan');
 const path = require('path');
 const router = require('./routes/index');
 const { auth } = require('express-openid-connect');
+var cors = require('cors');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.set('views', path.join(__dirname, 'pages'));
 app.set('view engine', 'ejs');
 
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());

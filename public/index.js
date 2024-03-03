@@ -5,8 +5,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const collisionsMap = [];
-for (let i=0; i<collisions.length; i+=70){ // 70 tiles wide
-    collisionsMap.push(collisions.slice(i, 70 + i));
+for (let i=0; i<collisions.length; i+=160){ // 160 tiles wide
+    collisionsMap.push(collisions.slice(i, 160 + i));
 }
 
 const boundaries = [];
@@ -14,7 +14,7 @@ const offset = {x: -745, y: -630};
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        if(symbol === 1025){
+        if(symbol === 14401){
             boundaries.push(
                 new Boundary({
                     x: j * Boundary.width + offset.x,
@@ -25,8 +25,10 @@ collisionsMap.forEach((row, i) => {
     })
 })
 
+console.log(collisionsMap);
+
 const floorImage = new Image();
-floorImage.src = './img/Pellet Town.png';
+floorImage.src = './img/gorilla-guru-map.png';
 
 const playerDownImage = new Image();
 playerDownImage.src = './img/playerDown.png';

@@ -39,12 +39,12 @@ class Sprite {
 }
 
 class Boundary {
-    static width = 48;
-    static height = 48;
+    static width = 14.4;
+    static height = 14.4;
     constructor(position) {
         this.position = position;
-        this.width = 48;   // his map is 400% zoomed, and each pixel is 12x12, so 12x4=48
-        this.height = 48;
+        this.width = 14.4;   // his map is 400% zoomed, and each pixel is 12x12, so 12x4=48
+        this.height = 14.4;
     }
 
     draw() {
