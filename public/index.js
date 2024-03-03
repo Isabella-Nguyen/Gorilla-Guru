@@ -200,6 +200,9 @@ function animate() {
         else if(changePageCheck(actions2)){
             console.log('chat initiate');
             chat.initiated = true;
+            gsap.to('#hidden-container', {
+                visibility: "visible",
+            })
         }
     }
 
