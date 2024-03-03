@@ -1,55 +1,42 @@
 <%- include('partials/header') -%>
 
-    <style>
-        body {
-            background-color: darkseagreen;
-        }
-
-        .login-btn {
-            font-size: 3em;
-            font-weight: bold;
-            border: 2px solid rgb(175, 21, 72);
-            border-radius: 20px;
-            background-color: palevioletred;
-            color: rgb(43, 0, 14);
-        }
-    </style>
-
     <% if (locals.isAuthenticated) { %>
 
         <div style="display: inline-block">
             <div id="overlappingDiv" style="
-        background-color: black;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        opacity: 0;
-        pointer-events: none;
-        z-index: 10;
-        "></div>
-
-        <div id="hidden-container">
-            <div id="chat">
-                
-                <div id="chat-window" class="glass-blur">
-                    <div class="close" id="close-hidden-container">X</div>
-                    <div id="output">
-                    </div>
-                    <div id="feedback"></div>
-                    <div class="buttons">
-                        <textarea id="message" placeholder="Message"></textarea>
-                        <button id="send">Send</button>
-                    </div>
-                </div>
-
+                background-color: black;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0;
+                pointer-events: none;
+                z-index: 10;
+                ">
             </div>
-        </div>
+
+            <div id="hidden-container">
+                <div id="chat">
+
+                    <div id="chat-window" class="glass-blur">
+                        <div class="close" id="close-hidden-container">X</div>
+                        <div id="output">
+                        </div>
+                        <div id="feedback"></div>
+                        <div class="buttons">
+                            <textarea id="message" placeholder="Message"></textarea>
+                            <button id="send">Send</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
             <canvas></canvas>
 
         </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
             integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -70,112 +57,6 @@
                 document.getElementById('hidden-container').style.visibility = 'hidden';
             });
         </script>
-        <style>
-            #hidden-container {
-                visibility: hidden;
-            }
-
-            #chat {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 40vw;
-                height: 100vh;
-                padding: 1em;
-            }
-
-            #chat-window {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-
-            }
-
-            .glass-blur {
-                background-color: rgba(140, 147, 116, 0.237);
-                border-radius: 10px;
-                backdrop-filter: blur(40px);
-                box-shadow: 5px 5px 10px rgba(12, 58, 15, 0.25);
-            }
-
-            #output {
-                width: 100%;
-                height: 80%;
-                margin: 1em 0;
-                padding: 1em;
-                display: flex;
-                flex-direction: column;
-            }
-
-            #message {
-                height: 12vh;
-                border: 2px solid palevioletred;
-                padding: 0.5em;
-                resize: none;
-            }
-
-            #message,
-            #send {
-                width: 100%;
-                margin: 5px;
-                border-radius: 10px;
-            }
-
-            #send {
-                font-size: 1.5em;
-                border: 2px solid palevioletred;
-                text-align: center;
-            }
-
-            #send {
-                background-color: palevioletred;
-                color: rgb(43, 0, 14);
-                font-weight: bold;
-            }
-
-            .buttons {
-                width: 85%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-bottom: 1em;
-            }
-
-            .p-output,
-            .p-feedback {
-                padding: 0.5em;
-                border-radius: 10px;
-            }
-
-            .p-output {
-                background-color: pink;
-                margin: 0.75em 1em 0 20%;
-
-            }
-
-            .p-feedback {
-                background-color: lightseagreen;
-                margin: 0.75em 20% 0 1em;
-            }
-
-            .close {
-                position: absolute;
-                top: 0;
-                right: 0;
-                margin: 0.5em;
-                padding: 0 0.5em;
-                border-radius: 10px;
-                background-color: palevioletred;
-                color: rgb(43, 0, 14);
-                font-weight: bold;
-                font-size: larger;
-                cursor: pointer;
-            }
-
-        </style>
         <% } else { %>
             <div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">
                 <a href="/login" class="login-btn p-6"> plz login :)</a>

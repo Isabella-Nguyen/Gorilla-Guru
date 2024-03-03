@@ -7,6 +7,7 @@
         <%= locals.title || "Express OpenID Connect" %>
     </title>
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="shortcut icon" href="//cdn2.auth0.com/styleguide/latest/lib/logos/img/favicon.png">
 </head>
 
@@ -50,31 +51,3 @@
           this.setAttribute('aria-expanded', !expanded);
         });
     </script>
-    <style>
-        [aria-expanded="false"] ~ .dropdown-menu {
-            display: none;
-          }
-          
-        [aria-expanded="true"] ~ .dropdown-menu {
-        display: block;
-        }
-
-        .dropdown-child {
-            display: block;
-            padding: 0.25rem 1.5rem;
-        }
-
-        .dropdown-child:hover,
-        .dropdown-btn:hover{
-            background-color: mediumseagreen;
-        }
-
-        .nav {
-            width: 100%;
-            position: absolute;
-            background-color: transparent;
-        }
-
-
-        
-    </style>
