@@ -47,10 +47,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.0.0/fabric.min.js"></script>
         <script src="/whiteboard.js"></script>
         <script>
+            let s = ["How can I help you?", "You can use pythagoream theorem to find the distance between two points", "It is the mitochondria"]
             document.getElementById('send').addEventListener('click', function () {
                 var message = document.getElementById('message').value;
                 document.getElementById('output').innerHTML += '<div class=\'p-output\'>' + message + '</div>';
-                document.getElementById('output').innerHTML += '<div class=\'p-feedback\'> I am not yet smart enough T-T</div>';
+                document.getElementById('output').innerHTML += '<div class=\'p-feedback\'> How can I help you?</div>';
                 var message = document.getElementById('message').value = '';
             });
 
