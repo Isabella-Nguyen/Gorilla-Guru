@@ -75,16 +75,16 @@ const floorImage = new Image();
 floorImage.src = './img/gorilla-guru-map.png';
 
 const playerDownImage = new Image();
-playerDownImage.src = './img/playerDown.png';
+playerDownImage.src = './img/GorillaGuru_frontWalk.png';
 
 const playerUpImage = new Image();
-playerUpImage.src = './img/playerUp.png';
+playerUpImage.src = './img/GorillaGuru_backWalk.png';
 
 const playerLeftImage = new Image();
-playerLeftImage.src = './img/playerLeft.png';
+playerLeftImage.src = './img/GorillaGuru_leftWalk.png';
 
 const playerRightImage = new Image();
-playerRightImage.src = './img/playerRight.png';
+playerRightImage.src = './img/GorillaGuru_rightWalk.png';
 
 const player = new Sprite({
         x: canvas.width / 2 - 192 / 4 / 2, // player is 192 x 68
