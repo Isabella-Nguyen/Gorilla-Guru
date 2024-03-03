@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+//console.log(gsap);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -8,6 +9,19 @@ const collisionsMap = [];
 for (let i=0; i<collisions.length; i+=160){ // 160 tiles wide
     collisionsMap.push(collisions.slice(i, 160 + i));
 }
+
+const actionsMap = [];
+for (let i=0; i<actionsData.length; i+=160){ // 70 tiles wide
+    actionsMap.push(actionsData.slice(i, 160 + i));
+}
+
+const actionsMap2 = [];
+for (let i=0; i<actionsData2.length; i+=160){ // 70 tiles wide
+    actionsMap2.push(actionsData2.slice(i, 160 + i));
+}
+
+//console.log(actionsMap);
+
 
 const boundaries = [];
 const offset = {x: -745, y: -630};
@@ -25,7 +39,37 @@ collisionsMap.forEach((row, i) => {
     })
 })
 
-console.log(collisionsMap);
+const actions = []
+actionsMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if(symbol === 14401){
+            actions.push(
+                new Boundary({
+                    x: j * Boundary.width + offset.x,
+                    y: i * Boundary.height + offset.y
+                })
+            )
+        }
+    })
+})
+
+const actions2 = []
+actionsMap2.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if(symbol === 14401){
+            actions.push(
+                new Boundary({
+                    x: j * Boundary.width + offset.x,
+                    y: i * Boundary.height + offset.y
+                })
+            )
+        }
+    })
+})
+
+//console.log(actionsMap);
+
+//console.log(collisionsMap);
 
 const floorImage = new Image();
 floorImage.src = './img/gorilla-guru-map.png';
@@ -85,7 +129,7 @@ const keys = {
 }
 
 // for stuff that move with the background
-const movables = [background, ...boundaries, foreground];
+const movables = [background, ...boundaries, foreground, ...actions, ...actions2];
 
 function rectangularCollision({rectangle1, rectangle2}){
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -94,17 +138,80 @@ function rectangularCollision({rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
 }
 
+function changePageCheck(actions){
+    for (let i=0; i<actions.length ; i++){
+        const action = actions[i]
+        // const overlappingArea = 
+        // (Math.min(
+        //     player.position.x + player.width,
+        //     action.position.x + action.width
+        //   ) -
+        //     Math.max(player.position.x, action.position.x)) *
+        //   (Math.min(
+        //     player.position.y + player.height,
+        //     action.position.y + action.height
+        //   ) -
+        //     Math.max(player.position.y, action.position.y))
+
+        if (rectangularCollision({
+            rectangle1: player,
+            rectangle2: action
+        }))
+            return true;
+        }
+        
+        return false;
+        
+}
+
+
+const whiteboard = {
+    initiated: false
+}
+
+const chat = {
+    initiated: false
+}
 function animate() {
-    window.requestAnimationFrame(animate);
+    const animationId = window.requestAnimationFrame(animate);
+    //console.log(animationId);
     background.draw();
     boundaries.forEach(boundary => {
         boundary.draw();
     })
+
+    actions.forEach(action =>{
+        action.draw();
+    })
+
+    actions2.forEach(action2 =>{
+        action2.draw();
+    })
+
     player.draw();
     foreground.draw();
 
     let moving = true;
     player.moving = false;
+
+    //activate whiteboard
+    if (whiteboard.initiated) return;
+
+    if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
+        if(changePageCheck(actions))
+        {
+            console.log('whiteboard initate');
+            whiteboard.initiated = true;
+            gsap.to('#overlappingDiv', {
+                opacity: 1,
+            })
+        }
+        else if(changePageCheck(actions2)){
+            console.log('chat initiate');
+            chat.initiated = true;
+        }
+    }
+
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true;
         player.image = player.sprites.up;
