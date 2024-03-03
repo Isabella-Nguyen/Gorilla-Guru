@@ -199,7 +199,7 @@ function animate() {
                 onComplete() {
                     // animateWhiteboard();
                     gsap.to('#whiteboard', {
-                        opacity: 1,
+                        visibility: 'visible'
                     })
                     gsap.to('#overlappingDiv', {
                         opacity: 0,
