@@ -72,7 +72,7 @@ actionsMap2.forEach((row, i) => {
 //console.log(collisionsMap);
 
 const floorImage = new Image();
-floorImage.src = './img/gorillaGuru.png';
+floorImage.src = './img/gorilla-guru-map.png';
 
 const playerDownImage = new Image();
 playerDownImage.src = './img/GorillaGuru_frontWalk.png';
@@ -157,6 +157,7 @@ function animate() {
     const animationId = window.requestAnimationFrame(animate);
     //console.log(animationId);
     background.draw();
+
     boundaries.forEach(boundary => {
         boundary.draw();
     })
