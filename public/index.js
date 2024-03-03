@@ -86,9 +86,6 @@ playerLeftImage.src = './img/playerLeft.png';
 const playerRightImage = new Image();
 playerRightImage.src = './img/playerRight.png';
 
-const foregroundImage = new Image(); // for the parts where the player goes behind
-foregroundImage.src = './img/foregroundObjects.png';
-
 const player = new Sprite({
         x: canvas.width / 2 - 192 / 4 / 2, // player is 192 x 68
         y: canvas.height / 2 - 68 / 2
@@ -108,11 +105,6 @@ const background = new Sprite(
     floorImage
 );
 
-const foreground = new Sprite(
-    {x: offset.x, y: offset.y},
-    foregroundImage
-);
-
 const keys = {
     w: {
         pressed: false
@@ -129,7 +121,7 @@ const keys = {
 }
 
 // for stuff that move with the background
-const movables = [background, ...boundaries, foreground, ...actions, ...actions2];
+const movables = [background, ...boundaries, ...actions, ...actions2];
 
 function rectangularCollision({rectangle1, rectangle2}){
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -189,7 +181,6 @@ function animate() {
     })
 
     player.draw();
-    foreground.draw();
 
     let moving = true;
     player.moving = false;
