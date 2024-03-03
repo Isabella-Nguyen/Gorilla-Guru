@@ -72,7 +72,7 @@ actionsMap2.forEach((row, i) => {
 //console.log(collisionsMap);
 
 const floorImage = new Image();
-floorImage.src = './img/gorilla-guru-map.png';
+floorImage.src = './img/gorillaGuru.png';
 
 const playerDownImage = new Image();
 playerDownImage.src = './img/GorillaGuru_frontWalk.png';
