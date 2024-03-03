@@ -117,12 +117,12 @@ body {
 
 /*--------------- header fieldset ---------------*/
 
-[aria-expanded="false"] ~ .dropdown-menu {
+[aria-expanded="false"]~.dropdown-menu {
     display: none;
-  }
-  
-[aria-expanded="true"] ~ .dropdown-menu {
-display: block;
+}
+
+[aria-expanded="true"]~.dropdown-menu {
+    display: block;
 }
 
 .dropdown-child {
@@ -131,7 +131,7 @@ display: block;
 }
 
 .dropdown-child:hover,
-.dropdown-btn:hover{
+.dropdown-btn:hover {
     background-color: mediumseagreen;
 }
 
@@ -139,4 +139,107 @@ display: block;
     width: 100%;
     position: absolute;
     background-color: transparent;
+}
+
+/*--------------- white board ---------------*/
+
+/* body{
+            margin: 1em;
+            background-color: darkseagreen;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        } */
+
+#whiteboard {
+    opacity: 0;
+    background-color: darkseagreen;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 10;
+}
+
+
+#overlappingDiv {
+    background-color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 10;
+}
+
+h1 {
+    .anta-regular {
+        font-family: "Anta", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    font-family: Anta;
+    color: rgb(175, 21, 72);
+    padding: 5px;
+    overflow: hidden;
+    border-right: 0.15em solid rgb(103, 0, 0);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation:
+    /* typing 3.5s steps(20, end),
+                blink-caret 0.5s step-end infinite;*/
+    typing 3s steps(60, end),
+    blink-caret 0.30s step-end 10;
+    width: 555px;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 555px
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: rgb(103, 0, 0)
+    }
+}
+
+.button {
+    margin-top: 1em;
+    margin-bottom: 0.10em;
+}
+
+button {
+    width: 8em;
+    margin: 0.75em;
+    padding: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    border: 2px solid rgb(175, 21, 72);
+    border-radius: 20px;
+    background-color: palevioletred;
+    color: rgb(43, 0, 14);
+}
+
+#whiteboard_canvas {
+    border: 2px solid #000000;
+    background-color: white;
 }
