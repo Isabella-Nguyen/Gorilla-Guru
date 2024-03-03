@@ -133,17 +133,6 @@ function rectangularCollision({rectangle1, rectangle2}){
 function changePageCheck(areas){
     for (let i=0; i<areas.length ; i++){
         const area = areas[i]
-        // const overlappingArea = 
-        // (Math.min(
-        //     player.position.x + player.width,
-        //     action.position.x + action.width
-        //   ) -
-        //     Math.max(player.position.x, action.position.x)) *
-        //   (Math.min(
-        //     player.position.y + player.height,
-        //     action.position.y + action.height
-        //   ) -
-        //     Math.max(player.position.y, action.position.y))
 
         if (rectangularCollision({
             rectangle1: player,
@@ -197,7 +186,6 @@ function animate() {
             gsap.to('#overlappingDiv', {
                 opacity: 1,
                 onComplete() {
-                    // animateWhiteboard();
                     gsap.to('#whiteboard', {
                         visibility: 'visible'
                     })
@@ -324,36 +312,15 @@ function animate() {
 }
 animate()
 
-function animateWhiteboard() {
-    // window.requestAnimationFrame(animateWhiteboard);
-    let whiteboard = document.getElementById("whiteboard");
-
-    whiteboard.style.opacity = 1;
-
-    let selectButton = document.createElement("button");
-    selectButton.onclick = select();
-    selectButton.id = "select";
-    selectButton.innerHTML = "Select"; 
-
-    let rectButton = document.createElement("button");
-    rectButton.onclick = rectangle();
-    rectButton.id = "rectangle";
-    rectButton.innerHTML = "Rectangle"; 
-
-    let drawButton = document.createElement("button");
-    drawButton.onclick = draw();
-    drawButton.id = "draw";
-    drawButton.innerHTML = "Draw"; 
-
-    let textButton = document.createElement("button");
-    textButton.onclick = text();
-    textButton.id = "text";
-    textButton.innerHTML = "Text"; 
-
-    whiteboard.appendChild(selectButton);
-    whiteboard.appendChild(rectButton);
-    whiteboard.appendChild(drawButton);
-    whiteboard.appendChild(textButton);
+function exitWhiteboard(){
+    let exit = document.getElementById("whiteboard");
+    exit.style.opacity = 0;
+    exit.style.pointerEvents = "none";
+    whiteboard.initiated = false;
+    movables.forEach((movable) => {
+        movable.position.y -= 10;
+    })
+    animate();
 }
 
 let lastKey = ''
@@ -396,3 +363,80 @@ window.addEventListener('keyup', (e) => {
         
     }
 })
+
+var whiteboardCanvas = new fabric.Canvas('whiteboard_canvas');
+
+whiteboardCanvas.isDrawingMode = true; //For free hand drawing
+
+var deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
+
+var img = document.createElement('img');
+img.src = deleteIcon;
+
+fabric.Object.prototype.transparentCorners = false;
+fabric.Object.prototype.cornerColor = 'blue';
+fabric.Object.prototype.cornerStyle = 'circle';
+
+function rectangle() {
+    console.log("here");
+    whiteboardCanvas.isDrawingMode = false;
+
+    var rect = new fabric.Rect({
+        left: 100,
+        top: 50,
+        fill: 'lightpink',
+        width: 200,
+        height: 100,
+        objectCaching: false,
+        stroke: 'lightblue',
+        strokeWidth: 4,
+    });
+
+    whiteboardCanvas.add(rect);
+    whiteboardCanvas.setActiveObject(rect);
+}
+
+fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+    x: 0.5,
+    y: -0.5,
+    offsetY: 16,
+    cursorStyle: 'pointer',
+    mouseUpHandler: deleteObject,
+    render: renderIcon,
+    cornerSize: 24
+});
+
+function deleteObject() {
+    whiteboardCanvas.remove(whiteboardCanvas.getActiveObject());
+    whiteboardCanvas.requestRenderAll();
+  }
+
+function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+  var size = this.cornerSize;
+  ctx.save();
+  ctx.translate(left, top);
+  ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+  ctx.drawImage(img, -size/2, -size/2, size, size);
+  ctx.restore();
+}
+
+function draw() {
+    whiteboardCanvas.isDrawingMode = true;
+}
+
+function select() {
+    whiteboardCanvas.isDrawingMode = false;
+}
+
+function text() {
+    select();
+    var text = new fabric.Textbox( 
+        'text here', {
+        width: 100,
+        fontSize: 20, 
+        editable: true
+    });
+
+    whiteboardCanvas.add(text);
+    whiteboardCanvas.centerObject(text);
+}
