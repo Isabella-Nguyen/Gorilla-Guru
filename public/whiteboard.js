@@ -1,153 +1,75 @@
-//Initialize fabric canvas
-var canvas = new fabric.Canvas('whiteboard');
+var canvas = new fabric.Canvas('whiteboard_canvas');
 
-var onSolidRect = function () {
-         var rect = new fabric.Rect({ 
-                         top: 100,
-                         left: 100,
-                         width: 60,
-                         height: 70,
-                         fill: '',
-                         selection: false,
-                         fill: '#f55', 
-                         });
-        canvas.add(rect);
-         }
+canvas.isDrawingMode = true; //For free hand drawing
 
-var removeSelected = function(){
-	var obj = canvas.getActiveObject();
-	if(obj)
-		canvas.remove(obj);
+var deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
+
+var img = document.createElement('img');
+img.src = deleteIcon;
+
+fabric.Object.prototype.transparentCorners = false;
+fabric.Object.prototype.cornerColor = 'blue';
+fabric.Object.prototype.cornerStyle = 'circle';
+
+function rectangle() {
+    canvas.isDrawingMode = false;
+
+    var rect = new fabric.Rect({
+        left: 100,
+        top: 50,
+        fill: 'lightpink',
+        width: 200,
+        height: 100,
+        objectCaching: false,
+        stroke: 'lightblue',
+        strokeWidth: 4,
+    });
+
+    canvas.add(rect);
+    canvas.setActiveObject(rect);
 }
 
-//Create mesibo users and obtain credentials at mesibo.com/console
-var demo_users = [ 
-        {
-                'token' : 'xxx'
-                , 'uid' : 0
-        },
-
-        {
-                'token' : 'xxx'
-                , 'uid' : 0
-        },
-] 
-
-var uIndex = prompt('Select user: 0, 1', 0);
-var selected_user = demo_users[uIndex];
-
-//Initialize mesibo
-const MESIBO_APP_ID = 'xxx';
-const MESIBO_ACCESS_TOKEN = selected_user.token;
-const MESIBO_USER_UID = selected_user.uid; 
-const MESIBO_GROUP_ID = 0; //Create a group and add members(demo_users)
-const TYPE_CANVAS_MESSAGE = 7;
-
-function MesiboListener() {
-}
-
-MesiboListener.prototype.Mesibo_OnConnectionStatus = function(status, value) {
-          console.log("TestNotify.prototype.Mesibo_OnConnectionStatus: " + status);
-}
-
-MesiboListener.prototype.Mesibo_OnMessageStatus = function(m) {
-         console.log("TestNotify.prototype.Mesibo_OnMessageStatus: from " 
-                         + m.peer + " status: " + m.status);
-}
-var api = new Mesibo();
-api.setAppName(MESIBO_APP_ID);
-api.setListener(new MesiboListener());
-api.setCredentials(MESIBO_ACCESS_TOKEN);
-api.start();
-
-function sendObjectToGroup(pObject){
-         var m = {};
-         m.id = api.random();
-         m.groupid = MESIBO_GROUP_ID;
-         m.flag = MESIBO_FLAG_DEFAULT;
-         m.type = TYPE_CANVAS_MESSAGE;
-         m.message = JSON.stringify(pObject); 
-         api.sendMessage(m, m.id, m.message);
-}
-
-function getObjectFromId(ctx, id){
-         var currentObjects = ctx.getObjects();
-         for (var i = currentObjects.length - 1; i >= 0; i-- ) {
-                 if(currentObjects[i].id == id)
-                         return currentObjects[i];
-         }
-        return null;
-}
-
-function Board_OnSync(_canvas, obj){
-        var existing = getObjectFromId(_canvas, obj.id);
-        console.log(existing);  
-	
-	if(obj.removed){
-		if(existing){
-			canvas.remove(existing);
-		}
-		return;
-	 }
-
-	if(existing){
-                 existing.set(obj); 
-                }
-	else{
-		if(obj.type === 'rect'){
-			_canvas.add(new fabric.Rect(obj));
-		}
-	}
-	_canvas.renderAll();
-}
-
-MesiboListener.prototype.Mesibo_OnMessage = function (m) { 
-	if(m && m.type === TYPE_CANVAS_MESSAGE && m.groupid && m.message){
-		var syncObj = JSON.parse(m.message);
-		Board_OnSync(canvas, syncObj);
-		return;
-	}
-}
-
-canvas.on('object:added', function(options) {
-	if (options.target) {
-		var obj = options.target; 
-		if(obj.type == 'rect'){
-			console.log('You added a rectangle!');
-		}
-		if(!obj.id){
-			// If object created by you, initially id will be undefined
-			// Set the id and sync object
-			obj.set('id', Date.now() + '-' + MESIBO_USER_UID);
-			obj.toJSON = (function(toJSON) {
-				return function() {
-					return fabric.util.object.extend(toJSON.call(this), {
-						id: this.id,
-					});
-				};
-			})(obj.toJSON);
-			sendObjectToGroup(obj);
-		}
-	} 
+fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+    x: 0.5,
+    y: -0.5,
+    offsetY: 16,
+    cursorStyle: 'pointer',
+    mouseUpHandler: deleteObject,
+    render: renderIcon,
+    cornerSize: 24
 });
 
-canvas.on('object:removed', function(options) {
-	if (options.target) {
-		var obj = options.target;	         
-		if(obj.removed)
-			return; //Object already removed
+function deleteObject() {
+    canvas.remove(canvas.getActiveObject());
+    canvas.requestRenderAll();
+  }
 
-		obj.set('removed', true);
-		obj.toJSON = (function(toJSON) {
-			return function() {
-				return    fabric.util.object.extend(toJSON.call(this), {
-					id: this.id,
-					uid: this.uid,
-					removed: this.removed 
-				});
-			};
-		})(obj.toJSON);
+function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+  var size = this.cornerSize;
+  ctx.save();
+  ctx.translate(left, top);
+  ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+  ctx.drawImage(img, -size/2, -size/2, size, size);
+  ctx.restore();
+}
 
-		sendObjectToGroup(obj);   
-	}
-});
+function draw() {
+    canvas.isDrawingMode = true;
+}
+
+function select() {
+    canvas.isDrawingMode = false;
+}
+
+function text() {
+    select();
+    var text = new fabric.Textbox( 
+        'text here', {
+        width: 100,
+        fontSize: 20, 
+        editable: true
+    });
+
+    canvas.add(text);
+    canvas.centerObject(text);
+}
