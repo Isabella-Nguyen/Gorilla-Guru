@@ -24,7 +24,7 @@ for (let i=0; i<actionsData2.length; i+=160){ // 70 tiles wide
 
 
 const boundaries = [];
-const offset = {x: -745, y: -630};
+const offset = {x: -300, y: -700};
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
