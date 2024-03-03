@@ -1,5 +1,136 @@
 <%- include('partials/header') -%>
 
+<% if (locals.isAuthenticated) { %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+
+    <style>
+        /* body{
+            margin: 1em;
+            background-color: darkseagreen;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        } */
+
+        h1{
+            .anta-regular {
+                font-family: "Anta", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }font-family: Anta;
+            color: rgb(175, 21, 72);
+            padding: 5px;
+            overflow: hidden; 
+            border-right: 0.15em solid rgb(103, 0, 0); 
+            white-space: nowrap; 
+            margin: 0 auto; 
+            letter-spacing: 0.15em; 
+            animation: 
+            /* typing 3.5s steps(20, end),
+                blink-caret 0.5s step-end infinite;*/
+                typing 3s steps(60, end), blink-caret 0.30s step-end 10;
+                width: 555px;
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 555px }
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: rgb(103, 0, 0) }
+        }
+
+        .button {
+            margin-top: 1em;
+            margin-bottom: 0.10em;
+        }
+
+        button {
+            width: 8em;
+            margin: 0.75em;
+            padding: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            border: 2px solid rgb(175, 21, 72);
+            border-radius: 20px;
+            background-color: palevioletred;
+            color: rgb(43, 0, 14);
+        }
+
+        #whiteboard_canvas {
+            border: 2px solid #000000;
+            background-color: white;
+        }
+
+    </style>
+
+
+    <div style="display: inline-block">
+        <div
+        id="overlappingDiv"
+        style="
+        background-color: black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+        "
+        ></div>
+        <div id="whiteboard" 
+        style = "
+        opacity: 0;
+        background-color: darkseagreen;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+        "
+        >
+        <div>
+            <h1>Welcome to the Gorilla Board</h1>
+            <div class="button">
+                <button id="select" onclick="select()">Select</button>
+                <button id="rect" onclick="rectangle()">Rectangle</button>
+                <button id="draw" onclick="draw()">Draw</button>
+                <button id="text" onclick="text()">Text</button>
+            </div>
+            <canvas id="whiteboard_canvas" width="800" height="400">Canvas</canvas>
+        </div>
+        </div>
+    <canvas id="mainCanvas"></canvas>
+    </div>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" 
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/action.js"></script>
+    <script src="/action2.js"></script>
+    <script src="/collisions.js"></script>
+    <script src="/classes.js"></script>
+    <script src="/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.0.0/fabric.min.js"></script>
+    <script src="/whiteboard.js"></script>
+<% } else { %>
+    <div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <a href="/login" class="login-btn p-6"> plz login :)</a>
+</div>
+<% } %>
+
+<%- include('partials/footer') -%>
+
     <% if (locals.isAuthenticated) { %>
 
         <div style="display: inline-block">

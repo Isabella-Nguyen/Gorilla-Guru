@@ -1,4 +1,4 @@
-const canvas = document.querySelector('canvas');
+const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext('2d');
 //console.log(gsap);
 
@@ -191,11 +191,22 @@ function animate() {
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         if(changePageCheck(actions))
         {
+            window.cancelAnimationFrame(animationId);
             console.log('whiteboard initate');
             whiteboard.initiated = true;
             gsap.to('#overlappingDiv', {
                 opacity: 1,
+                onComplete() {
+                    // animateWhiteboard();
+                    gsap.to('#whiteboard', {
+                        opacity: 1,
+                    })
+                    gsap.to('#overlappingDiv', {
+                        opacity: 0,
+                    })
+                }
             })
+            
         }
         else if(changePageCheck(actions2)){
             console.log('chat initiate');
@@ -312,6 +323,38 @@ function animate() {
     }
 }
 animate()
+
+function animateWhiteboard() {
+    // window.requestAnimationFrame(animateWhiteboard);
+    let whiteboard = document.getElementById("whiteboard");
+
+    whiteboard.style.opacity = 1;
+
+    let selectButton = document.createElement("button");
+    selectButton.onclick = select();
+    selectButton.id = "select";
+    selectButton.innerHTML = "Select"; 
+
+    let rectButton = document.createElement("button");
+    rectButton.onclick = rectangle();
+    rectButton.id = "rectangle";
+    rectButton.innerHTML = "Rectangle"; 
+
+    let drawButton = document.createElement("button");
+    drawButton.onclick = draw();
+    drawButton.id = "draw";
+    drawButton.innerHTML = "Draw"; 
+
+    let textButton = document.createElement("button");
+    textButton.onclick = text();
+    textButton.id = "text";
+    textButton.innerHTML = "Text"; 
+
+    whiteboard.appendChild(selectButton);
+    whiteboard.appendChild(rectButton);
+    whiteboard.appendChild(drawButton);
+    whiteboard.appendChild(textButton);
+}
 
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
